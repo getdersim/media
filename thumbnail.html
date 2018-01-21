@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>PDF TO THUMBNAIL IMG</title>
+    <script type="text/javascript" src="/pdf.js"></script>
+  </head>
+  <body>
+    <canvas id="the-canvas"></canvas>
+    <script type="text/javascript">
+      const BASE_URI = window.location.origin;
+
+      PDFJS.disableWorker = true;
+
+      var url;
+      try {
+        url = window.location.href.match(/pdf=([^&]+)/)[1];
+      } catch (e) {
+        // console.log('use "?pdf=PDF-URI" like!')
+      }
+
+      PDFJS.workerSrc = `${BASE_URI}/pdf.worker.js`;
+
+      var loadingTask = PDFJS.getDocument(url)
+      loadingTask.promise.then(function(pdf) {
+        pdf.getPage(1).then(page => {
+
+          var scale = 1
+          var viewport = page.getViewport(scale)
+
+          var canvas = document.getElementById('the-canvas')
+          var context = canvas.getContext('2d')
+          canvas.height = viewport.height
+          canvas.width = viewport.width
+
+          // Render PDF page into canvas context
+          var renderContext = {
+            canvasContext: context,
+            viewport: viewport
+          }
+          var renderTask = page.render(renderContext)
+          renderTask.then(() => {
+            let blob;
+            if(typeof window.navigator.msSaveBlob === 'function')
+          		blob = new Blob( [canvas.msToBlob()], {type: 'image/png'} )
+          	else
+          		blob = canvas.toDataURL();
+
+            console.log(blob)
+          })
+        })
+      }, function (reason) {
+      })
+    </script>
+  </body>
+</html>

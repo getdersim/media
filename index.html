@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>PDF TO GIF</title>
+    <script type="text/javascript" src="/gif.js"></script>
+    <script type="text/javascript" src="/pdf.js"></script>
+    <script type="text/javascript" src="/blob-util.js"></script>
+  </head>
+  <body>
+    <canvas id="the-canvas"></canvas>
+    <script type="text/javascript">
+      const BASE_URI = window.location.origin;
+
+      PDFJS.disableWorker = false;
+
+      var url;
+      try {
+        url = window.location.href.match(/pdf=([^&]+)/)[1];
+      } catch (e) {
+        // console.log('use "?pdf=PDF-URI" like!')
+      }
+      console.log(url);
+
+
+      var gif = new GIF({
+        workers: 2,
+        quality: 10
+      });
+
+      PDFJS.workerSrc = `${BASE_URI}/pdf.worker.js`;
+
+      var loadingTask = PDFJS.getDocument(url)
+      loadingTask.promise.then(function(pdf) {
+        var pageNumber = 1
+        capture(pageNumber)
+
+        function capture(pageNumber) {
+
+          pdf.getPage(pageNumber).then(page => {
+
+            var scale = 1
+            var viewport = page.getViewport(scale)
+
+            var canvas = document.getElementById('the-canvas')
+            var context = canvas.getContext('2d')
+            canvas.height = viewport.height
+            canvas.width = viewport.width
+
+            // Render PDF page into canvas context
+            var renderContext = {
+              canvasContext: context,
+              viewport: viewport
+            }
+            var renderTask = page.render(renderContext)
+            renderTask.then(() => {
+              gif.addFrame(canvas, {copy: true, delay: 1000});
+              ++pageNumber
+              if (pageNumber < pdf.numPages) {
+                  capture(pageNumber)
+              } else {
+                gif.on('finished', blob => {
+                  blobUtil.blobToDataURL(blob).then(function (dataURL) {
+                    console.log(dataURL);
+                  }).catch(function (err) {
+                    // error
+                  });
+                })
+                gif.render()
+              }
+            })
+          })
+
+        } // End capture function.
+
+      }, function (reason) {
+      })
+    </script>
+  </body>
+</html>
