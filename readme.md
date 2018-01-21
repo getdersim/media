@@ -7,7 +7,7 @@ _PDF TO GIF_ GET: <https://media.ders.im/?pdf=[PDF_URL>]
 _PDF TO PNG_ GET:<br>
 <https://media.ders.im/thumbnail.html?pdf=[PDF_URL>]
 
-# Kullanım
+**Kullanım**
 
 Kendi projenizde [npm pgif paketini](https://www.npmjs.com/package/pgif) kullanarak sizde aynı fonksiyonelliği sağlayabilirsiniz.
 
