@@ -1,19 +1,13 @@
-# Ders.im Medya
+**Ders.im Medya**
 
 İlgili url'e pdf url'inizi get isteği yaptığınızda sonucu console.log()'a basan html betiğidir.
 
+_PDF TO GIF_ GET: <https://media.ders.im/?pdf=[PDF_URL>]
 
-*PDF TO GIF*
-GET:
-  https://media.ders.im/?pdf=[PDF_URL]
+_PDF TO PNG_ GET:<br>
+<https://media.ders.im/thumbnail.html?pdf=[PDF_URL>]
 
-
-*PDF TO PNG*
-GET:  
-  https://media.ders.im/thumbnail.html?pdf=[PDF_URL]
-
-
-# Kullanım
+# Kullanım
 
 Kendi projenizde [npm pgif paketini](https://www.npmjs.com/package/pgif) kullanarak sizde aynı fonksiyonelliği sağlayabilirsiniz.
 
