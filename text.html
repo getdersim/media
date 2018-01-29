@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>PDF TO THUMBNAIL IMG</title>
+    <title>GET TEXT FROM UPLOADED PDF</title>
     <script type="text/javascript" src="/pdf.js"></script>
   </head>
   <body>
@@ -35,12 +35,11 @@
                     return textContent.then(function(text){ // return content promise
                         return text.items.map(function (s) { return s.str; }).join(''); // value page text
 
-                    });
-                }));
+                    })
+                }))
              }
              // Wait for all pages and join text
              return Promise.all(countPromises).then(function (texts) {
-
                return texts.join('');
              });
         });
