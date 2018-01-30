@@ -56,7 +56,7 @@
             renderTask.then(() => {
               gif.addFrame(canvas, {copy: true, delay: 1000});
               ++pageNumber
-              if (pageNumber < pdf.numPages || pageNumber < 10) {
+              if (pageNumber < pdf.numPages && pageNumber < 9) {
                   capture(pageNumber)
               } else {
                 gif.on('finished', blob => {
