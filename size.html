@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>PDF PAGE NUM</title>
+    <script type="text/javascript" src="/pdf.js"></script>
+  </head>
+  <body>
+    <canvas id="the-canvas"></canvas>
+    <script type="text/javascript">
+      const BASE_URI = window.location.origin;
+
+      PDFJS.disableWorker = true;
+
+      var url;
+      try {
+        url = window.location.href.match(/pdf=([^&]+)/)[1];
+      } catch (e) {
+        // console.log('use "?pdf=PDF-URI" like!')
+      }
+
+      PDFJS.workerSrc = `${BASE_URI}/pdf.worker.js`;
+
+      var loadingTask = PDFJS.getDocument(url)
+      loadingTask.promise.then(function(pdf) {
+        console.log(pdf.numPages)
+      }, function (reason) {
+      })
+    </script>
+  </body>
+</html>
