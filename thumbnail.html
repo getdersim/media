@@ -14,7 +14,7 @@
 
       var url;
       try {
-        url = window.location.href.match(/pdf=([^&]+)/)[1];
+        url = window.location.search.slice(5)
       } catch (e) {
         // console.log('use "?pdf=PDF-URI" like!')
       }
