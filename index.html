@@ -56,6 +56,9 @@
             renderTask.then(() => {
               gif.addFrame(canvas, {copy: true, delay: 1000});
               ++pageNumber
+              context.fillStyle = 'rgb(92, 107, 192)';
+              context.font = "16px Helvetica Neue";
+              context.fillText("https://ders.im", 10, 15);
               if (pageNumber < pdf.numPages && pageNumber < 9) {
                   capture(pageNumber)
               } else {

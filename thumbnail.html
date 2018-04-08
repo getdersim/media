@@ -33,6 +33,9 @@
           canvas.height = viewport.height
           canvas.width = viewport.width
 
+
+
+
           // Render PDF page into canvas context
           var renderContext = {
             canvasContext: context,
@@ -40,6 +43,9 @@
           }
           var renderTask = page.render(renderContext)
           renderTask.then(() => {
+            context.fillStyle = 'rgb(92, 107, 192)';
+            context.font = "16px Helvetica Neue";
+            context.fillText("https://ders.im", 10, 15);
             let blob;
             if(typeof window.navigator.msSaveBlob === 'function')
           		blob = new Blob( [canvas.msToBlob()], {type: 'image/png'} )

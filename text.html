@@ -25,6 +25,9 @@
         var pdf = PDFJS.getDocument(pdfUrl);
         return pdf.then(function(pdf) { // get all pages text
              var maxPages = pdf.pdfInfo.numPages;
+             if (maxPages > 7) {
+               maxPages = 7
+             }
              var countPromises = []; // collecting all page promises
              for (var j = 1; j <= maxPages; j++) {
                 var page = pdf.getPage(j);
@@ -34,7 +37,6 @@
                     var textContent = page.getTextContent();
                     return textContent.then(function(text){ // return content promise
                         return text.items.map(function (s) { return s.str; }).join(''); // value page text
-
                     })
                 }))
              }
